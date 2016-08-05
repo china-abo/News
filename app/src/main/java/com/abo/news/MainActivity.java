@@ -1,13 +1,15 @@
 package com.abo.news;
 
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.abo.news.news.widget.NewsFragment;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
         setupDrawerContent(mNavigationView);
+        switch2News();
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -71,5 +74,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void switch2News() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content,new NewsFragment()).commit();
+        mToolbar.setTitle("新闻");
     }
 }

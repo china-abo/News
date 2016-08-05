@@ -21,6 +21,11 @@ import java.util.List;
  */
 public class NewsFragment extends Fragment {
 
+    public static final int NEWS_TYPE_TOP = 0;
+    public static final int NEWS_TYPE_NBA = 1;
+    public static final int NEWS_TYPE_CARS = 2;
+    public static final int NEWS_TYPE_JOKES = 3;
+
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
 
@@ -31,9 +36,13 @@ public class NewsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_news,null);
         mTabLayout = (TabLayout) v.findViewById(R.id.news_tab_layout);
         mViewPager = (ViewPager) v.findViewById(R.id.news_view_page);
-
+        mViewPager.setOffscreenPageLimit(3);
         setupViewPager(mViewPager);
-
+        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.top));
+        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.nba));
+        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.cars));
+        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.jokes));
+        mTabLayout.setupWithViewPager(mViewPager);
         return v;
     }
 
@@ -42,7 +51,11 @@ public class NewsFragment extends Fragment {
      */
     private void setupViewPager(ViewPager mViewPager){
         MyPagerAdapter adapter = new MyPagerAdapter(getChildFragmentManager());
-//        adapter.AddFragment();
+        adapter.AddFragment(NewsListFragment.newInstance(NEWS_TYPE_TOP),getString(R.string.top));
+        adapter.AddFragment(NewsListFragment.newInstance(NEWS_TYPE_NBA),getString(R.string.nba));
+        adapter.AddFragment(NewsListFragment.newInstance(NEWS_TYPE_CARS),getString(R.string.cars));
+        adapter.AddFragment(NewsListFragment.newInstance(NEWS_TYPE_JOKES),getString(R.string.jokes));
+        mViewPager.setAdapter(adapter);
     }
 
     /**
