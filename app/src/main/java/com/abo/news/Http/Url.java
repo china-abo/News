@@ -1,4 +1,4 @@
-package com.abo.news;
+package com.abo.news.Http;
 
 /**
  * Created by abo on 16/8/8.
