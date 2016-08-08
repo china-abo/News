@@ -1,6 +1,6 @@
 package com.abo.news.news.view;
 
-import com.abo.news.beans.news;
+import com.abo.news.beans.NewsBean;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface NewsView {
     void showProgress();
-    void addNews(List<news> newsList);
+    void addNews(List<NewsBean> newsList);
     void hideProgress();
     void showLoadFail();
 }

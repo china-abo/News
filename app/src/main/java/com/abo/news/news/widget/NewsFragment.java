@@ -38,10 +38,10 @@ public class NewsFragment extends Fragment {
         mViewPager = (ViewPager) v.findViewById(R.id.news_view_page);
         mViewPager.setOffscreenPageLimit(3);
         setupViewPager(mViewPager);
-        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.top));
-        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.nba));
-        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.cars));
-        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.jokes));
+//        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.top));
+//        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.nba));
+//        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.cars));
+//        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.jokes));
         mTabLayout.setupWithViewPager(mViewPager);
         return v;
     }
@@ -65,7 +65,6 @@ public class NewsFragment extends Fragment {
 
         private List<Fragment> mFragments = new ArrayList<>();
         private List<String> mFragmentTitle = new ArrayList<>();
-
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
