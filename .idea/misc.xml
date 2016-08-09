@@ -1,62 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="EntryPointsManager">
-    <entry_points version="2.0" />
-  </component>
-  <component name="NullableNotNullManager">
-    <option name="myDefaultNullable" value="android.support.annotation.Nullable" />
-    <option name="myDefaultNotNull" value="android.support.annotation.NonNull" />
-    <option name="myNullables">
-      <value>
-        <list size="4">
-          <item index="0" class="java.lang.String" itemvalue="org.jetbrains.annotations.Nullable" />
-          <item index="1" class="java.lang.String" itemvalue="javax.annotation.Nullable" />
-          <item index="2" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.Nullable" />
-          <item index="3" class="java.lang.String" itemvalue="android.support.annotation.Nullable" />
-        </list>
-      </value>
-    </option>
-    <option name="myNotNulls">
-      <value>
-        <list size="4">
-          <item index="0" class="java.lang.String" itemvalue="org.jetbrains.annotations.NotNull" />
-          <item index="1" class="java.lang.String" itemvalue="javax.annotation.Nonnull" />
-          <item index="2" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.NonNull" />
-          <item index="3" class="java.lang.String" itemvalue="android.support.annotation.NonNull" />
-        </list>
-      </value>
-    </option>
-  </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
-    <OptionsSetting value="true" id="Add" />
-    <OptionsSetting value="true" id="Remove" />
-    <OptionsSetting value="true" id="Checkout" />
-    <OptionsSetting value="true" id="Update" />
-    <OptionsSetting value="true" id="Status" />
-    <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
-    <ConfirmationsSetting value="0" id="Remove" />
-  </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="true" assert-keyword="true" jdk-15="true" project-jdk-name="1.7" project-jdk-type="JavaSDK">
-    <output url="file://$PROJECT_DIR$/build/classes" />
-  </component>
-  <component name="ProjectType">
-    <option name="id" value="Android" />
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ProjectJDKs.UI">
-        <settings>
-          <last-edited>1.7</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
-  </component>
-</project>
+{"postid":"BTSH2PQR00963VRO",
+"url_3w":"http://help.3g.163.com/16/0807/14/BTSH2PQR00963VRO.html",
+"votecount":0,"replyCount":0,"skipID":"S1451880983492",
+"ltitle":"习近平诠释\"奥运精神\" 体育强国梦与中国梦紧相连",
+"digest":"八月的里约，我国奥运健儿踏上了为国争光的新征程。出征前夕，中共中央政治局常委、中央书记处书记刘云山受中共中央总书记、国家主席、中央军委主席习近平委托，在人民大会",
+"skipType":"special",
+"url":"http://3g.163.com/ntes/16/0807/14/BTSH2PQR00963VRO.html",
+"specialID":"S1451880983492",
+"docid":"BTSH2PQR00963VRO",
+"title":"习近平诠释\"奥运精神\" 体育强国梦与中国梦紧相连",
+"source":"央广网",
+"priority":310,
+"lmodify":"2016-08-08 00:04:07",
+"boardid":"3g_bbs",
+"subtitle":"",
+"imgsrc":"http://cms-bucket.nosdn.127.net/182b6a70e0584839b9101767718a9ada20160807151210.jpeg",
+"ptime":"2016-08-07 14:57:56"},

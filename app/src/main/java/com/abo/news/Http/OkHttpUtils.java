@@ -1,6 +1,7 @@
 package com.abo.news.Http;
 
 import android.os.Handler;
+import android.os.Looper;
 
 import com.google.gson.internal.$Gson$Types;
 import com.squareup.okhttp.Callback;
@@ -13,27 +14,41 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by abo on 16/8/8.
  */
 public class OkHttpUtils {
-
-    private OkHttpClient mOkHttpClient;
-    private Handler mDelivery;
+    private static OkHttpUtils mInstance;
+    private static OkHttpClient mOkHttpClient;
+    private static Handler mDelivery;
 
     private OkHttpUtils(){
         mOkHttpClient = new OkHttpClient();
+        mOkHttpClient.setConnectTimeout(10, TimeUnit.SECONDS);
+        mOkHttpClient.setWriteTimeout(10, TimeUnit.SECONDS);
+        mOkHttpClient.setReadTimeout(30, TimeUnit.SECONDS);
+        mOkHttpClient.setCookieHandler(new CookieManager(null, CookiePolicy.ACCEPT_ORIGINAL_SERVER));
+        mDelivery = new Handler(Looper.getMainLooper());
     }
 
+    private synchronized static OkHttpUtils getmInstance() {
+        if (mInstance == null) {
+            mInstance = new OkHttpUtils();
+        }
+        return mInstance;
+    }
 
     /**
      * Get请求
      * @param url
      * @param callback
      */
-    private void getRequest(String url, final ResultCallback callback){
+    private  void getRequest(String url, final ResultCallback callback){
         final Request request = new Request.Builder().url(url).build();
         deliverResult(callback,request);
     }
@@ -41,17 +56,18 @@ public class OkHttpUtils {
     /**
      * Post请求,请求与回调都进行类封装。
      * @param url
-     * @param callbakc
+     * @param callback
      * @param params
      */
-    private void postRequest(String url, ResultCallback callbakc, List<Param> params){
+    private void postRequest(String url, ResultCallback callback, List<Param> params){
         Request request = buildPostRequset(url,params);
-        deliverResult(callbakc,request);
+        deliverResult(callback,request);
     }
 
 
 
-    private void deliverResult(final ResultCallback callback, final Request request) {
+    private static void deliverResult(final ResultCallback callback, final Request request) {
+
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
@@ -60,19 +76,23 @@ public class OkHttpUtils {
 
             @Override
             public void onResponse(Response response) throws IOException {
-                String str = request.body().toString();
-                if (callback.mType == String.class){
-                    sendSuccessCallback(callback, str);
-                }else{
-                    Object object = JsonUtils.deserialize(str, callback.mType);
-                    sendSuccessCallback(callback,object);
+                try {
+                    String str = request.body().toString();
+                    if (callback.mType == String.class) {
+                        sendSuccessCallback(callback, str);
+                    } else {
+                        Object object = JsonUtils.deserialize(str, callback.mType);
+                        sendSuccessCallback(callback, object);
+                    }
+                }catch (final Exception e){
+                    sendFailCallback(callback,e);
                 }
             }
         });
 
     }
 
-    private void sendSuccessCallback(final ResultCallback callback, final Object obj) {
+    private static void sendSuccessCallback(final ResultCallback callback, final Object obj) {
         mDelivery.post(new Runnable() {
             @Override
             public void run() {
@@ -83,7 +103,7 @@ public class OkHttpUtils {
         });
     }
 
-    private void sendFailCallback(final ResultCallback callback, final IOException e) {
+    private static void sendFailCallback(final ResultCallback callback, final Exception e) {
         mDelivery.post(new Runnable() {
             @Override
             public void run() {
@@ -111,9 +131,9 @@ public class OkHttpUtils {
 
 
     /**
-     * @param <T>
+     * @param
      */
-    public static abstract class ResultCallback<T>{
+    public static abstract class ResultCallback<String>{
         Type mType;
 
         public ResultCallback(){
@@ -133,7 +153,7 @@ public class OkHttpUtils {
          * 请求回调成功
          * @param response
          */
-        public abstract void onSuccess(T response);
+        public abstract void onSuccess(String response);
 
         /**
          * 请求回调失败
@@ -159,6 +179,25 @@ public class OkHttpUtils {
             this.values = values;
 
         }
+    }
+
+    /**
+     * get请求
+     * @param url  请求url
+     * @param callback  请求回调
+     */
+    public static void get(String url, ResultCallback callback) {
+        getmInstance().getRequest(url, callback);
+    }
+
+    /**
+     * post请求
+     * @param url       请求url
+     * @param callback  请求回调
+     * @param params    请求参数
+     */
+    public static void post(String url, final ResultCallback callback, List<Param> params) {
+        getmInstance().postRequest(url, callback, params);
     }
 
 }

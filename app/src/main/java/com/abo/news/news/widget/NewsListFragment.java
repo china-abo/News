@@ -7,14 +7,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.abo.news.Http.Url;
 import com.abo.news.R;
 import com.abo.news.beans.NewsBean;
+import com.abo.news.news.presenter.NewsPresenter;
+import com.abo.news.news.presenter.NewsPresenterImpl;
 import com.abo.news.news.view.NewsView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,7 +35,7 @@ public class NewsListFragment extends Fragment implements NewsView, SwipeRefresh
     private LinearLayoutManager mLayoutManager;
     private NewsAdapter mAdapter;
     private List<NewsBean> mData;
-//    private NewsPresenter mNewsPresenter;
+    private NewsPresenter mNewsPresenter;
 
     private int mType = NewsFragment.NEWS_TYPE_TOP;
     private int pageIndex = 0;
@@ -48,6 +53,7 @@ public class NewsListFragment extends Fragment implements NewsView, SwipeRefresh
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mNewsPresenter = new NewsPresenterImpl(this);
         mType = getArguments().getInt("type");
     }
 
@@ -62,8 +68,9 @@ public class NewsListFragment extends Fragment implements NewsView, SwipeRefresh
         mRecyclerView = (RecyclerView) v.findViewById(R.id.news_recycler_view);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new NewsAdapter();
+        mAdapter = new NewsAdapter(getActivity().getApplicationContext());
         mRecyclerView.setAdapter(mAdapter);
+        onRefresh();
         return v;
     }
     //实现NewsView中的四个方法
@@ -72,6 +79,20 @@ public class NewsListFragment extends Fragment implements NewsView, SwipeRefresh
     }
 
     public void addNews(List<NewsBean> newsList) {
+        mAdapter.isShowFooter(true);
+        if (mData == null){
+            mData = new ArrayList<NewsBean>();
+        }
+        mData.addAll(newsList);
+        if (pageIndex == 0){
+            mAdapter.setmData(mData);
+        }else{
+            if (newsList == null ||newsList.size()==0){
+                mAdapter.isShowFooter(false);
+            }
+            mAdapter.notifyDataSetChanged();
+        }
+        pageIndex += Url.PAZE_SIZE;
 
     }
 
@@ -90,6 +111,11 @@ public class NewsListFragment extends Fragment implements NewsView, SwipeRefresh
 
     @Override
     public void onRefresh() {
-
+        Log.d("aaaa","aaaa");
+        pageIndex = 0;
+        if(mData != null){
+            mData.clear();
+        }
+        mNewsPresenter.loadNews(mType,pageIndex);
     }
 }

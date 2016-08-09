@@ -6,7 +6,7 @@ package com.abo.news.Http;
 public class Url {
     //http://c.m.163.com/nc/article/headline/T1348647909107/0-5.html  头条
 
-    public static final int PAZE_SIZE = 50;
+    public static final int PAZE_SIZE = 20;
 
     public static final String HOST = "http://c.m.163.com/";
     public static final String END_URL = "-" + PAZE_SIZE + ".html";
