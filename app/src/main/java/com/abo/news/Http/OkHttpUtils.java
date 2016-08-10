@@ -50,7 +50,8 @@ public class OkHttpUtils {
      */
     private  void getRequest(String url, final ResultCallback callback){
         final Request request = new Request.Builder().url(url).build();
-        deliverResult(callback,request);
+        deliveryResult(callback,request);
+
     }
 
     /**
@@ -61,23 +62,23 @@ public class OkHttpUtils {
      */
     private void postRequest(String url, ResultCallback callback, List<Param> params){
         Request request = buildPostRequset(url,params);
-        deliverResult(callback,request);
+        deliveryResult(callback,request);
     }
 
 
 
-    private static void deliverResult(final ResultCallback callback, final Request request) {
+    private void deliveryResult(final ResultCallback callback, Request request) {
 
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Request request, IOException e) {
+            public void onFailure(Request request, final IOException e) {
                 sendFailCallback(callback,e);
             }
 
             @Override
             public void onResponse(Response response) throws IOException {
                 try {
-                    String str = request.body().toString();
+                    String str = response.body().string();
                     if (callback.mType == String.class) {
                         sendSuccessCallback(callback, str);
                     } else {
@@ -92,7 +93,7 @@ public class OkHttpUtils {
 
     }
 
-    private static void sendSuccessCallback(final ResultCallback callback, final Object obj) {
+    private  void sendSuccessCallback(final ResultCallback callback, final Object obj) {
         mDelivery.post(new Runnable() {
             @Override
             public void run() {
@@ -103,7 +104,7 @@ public class OkHttpUtils {
         });
     }
 
-    private static void sendFailCallback(final ResultCallback callback, final Exception e) {
+    private  void sendFailCallback(final ResultCallback callback, final Exception e) {
         mDelivery.post(new Runnable() {
             @Override
             public void run() {
@@ -133,14 +134,15 @@ public class OkHttpUtils {
     /**
      * @param
      */
-    public static abstract class ResultCallback<String>{
+    public static abstract class ResultCallback<String> {
+
         Type mType;
 
         public ResultCallback(){
             mType = getSuperclassTypeParameter(getClass());
         }
 
-        private Type getSuperclassTypeParameter(Class<?> subclass) {
+        static Type getSuperclassTypeParameter(Class<?> subclass) {
             Type superclass = subclass.getGenericSuperclass();
             if (superclass instanceof Class) {
                 throw new RuntimeException("Missing type parameter.");
@@ -150,17 +152,16 @@ public class OkHttpUtils {
         }
 
         /**
-         * 请求回调成功
+         * 请求成功回调
          * @param response
          */
         public abstract void onSuccess(String response);
 
         /**
-         * 请求回调失败
+         * 请求失败回调
          * @param e
          */
         public abstract void onFailure(Exception e);
-
     }
 
     /**

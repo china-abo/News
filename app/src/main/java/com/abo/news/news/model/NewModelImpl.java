@@ -21,7 +21,7 @@ public class NewModelImpl implements NewModel {
             public void onSuccess(String response) {
                 List<NewsBean> newsBeanList = NewsJsonUtil.readJsonNewsBeans(response,getId(type));
                 onLoadNewListListener.onSuccess(newsBeanList);
-                Log.d("NM,loadNews","aboabo");
+                Log.d("bbbbbb","bbbaaa");
 
             }
 
