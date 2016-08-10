@@ -1,6 +1,7 @@
 package com.abo.news.Http;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -30,6 +31,7 @@ public class ImageLoaderUtils {
         Glide.with(context).load(url).placeholder(R.drawable.ic_image_loading)
                 .error(R.drawable.ic_image_loadfail).crossFade().into(imageView);
     }
+
 
 
 }

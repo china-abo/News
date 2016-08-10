@@ -2,6 +2,7 @@ package com.abo.news.news.widget;
 
 import com.abo.news.Http.JsonUtils;
 import com.abo.news.beans.NewsBean;
+import com.abo.news.beans.NewsDetailBean;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -42,5 +43,21 @@ public class NewsJsonUtil {
         } catch (Exception e) {
         }
         return beans;
+    }
+
+    public static NewsDetailBean readJsonDetailBeans(String res, String docId){
+        NewsDetailBean newsDetailBean = null;
+        try {
+            JsonParser parse = new JsonParser();
+            JsonObject jsonObject = parse.parse(res).getAsJsonObject();
+            JsonElement jsonElement = jsonObject.get(docId);
+            if (jsonElement == null) {
+                return null;
+            }
+            newsDetailBean = JsonUtils.deserialize(jsonElement.getAsJsonObject(),NewsDetailBean.class);
+        }catch (Exception e){
+
+        }
+        return newsDetailBean;
     }
 }

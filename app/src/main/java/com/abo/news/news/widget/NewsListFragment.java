@@ -1,5 +1,6 @@
 package com.abo.news.news.widget;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -7,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,10 +69,26 @@ public class NewsListFragment extends Fragment implements NewsView, SwipeRefresh
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new NewsAdapter(getActivity().getApplicationContext());
+        mAdapter.setOnItemClickListener(onItemClickListener);
         mRecyclerView.setAdapter(mAdapter);
+
         onRefresh();
         return v;
     }
+
+    /**
+     * 实现新闻
+     */
+    private NewsAdapter.OnItemClickListener onItemClickListener = new NewsAdapter.OnItemClickListener() {
+        @Override
+        public void onItemClick(View view, int position) {
+            NewsBean newsTitle = mAdapter.getItem(position);
+            Intent intent = new Intent(getActivity(),NewsDetailActivity.class);
+            intent.putExtra("news",newsTitle);
+            startActivity(intent);
+        }
+    };
+
     //实现NewsView中的四个方法
     public void showProgress() {
         mSwipeRefreshWidget.setRefreshing(true);
@@ -111,7 +127,7 @@ public class NewsListFragment extends Fragment implements NewsView, SwipeRefresh
 
     @Override
     public void onRefresh() {
-        Log.d("aaaa","aaaa");
+
         pageIndex = 0;
         if(mData != null){
             mData.clear();

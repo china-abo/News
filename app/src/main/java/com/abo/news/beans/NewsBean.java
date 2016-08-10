@@ -1,9 +1,11 @@
 package com.abo.news.beans;
 
+import java.io.Serializable;
+
 /**
  * Created by abo on 16/8/5.
  */
-public class NewsBean {
+public class NewsBean implements Serializable {
 
     /**
      * docid

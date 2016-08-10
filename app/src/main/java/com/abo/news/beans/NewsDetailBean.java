@@ -1,11 +1,12 @@
 package com.abo.news.beans;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by abo on 16/8/8.
  */
-public class NewsDetailBean {
+public class NewsDetailBean implements Serializable {
     /**
      * docid
      */

@@ -5,6 +5,7 @@ import android.util.Log;
 import com.abo.news.Http.OkHttpUtils;
 import com.abo.news.Http.Url;
 import com.abo.news.beans.NewsBean;
+import com.abo.news.beans.NewsDetailBean;
 import com.abo.news.news.widget.NewsFragment;
 import com.abo.news.news.widget.NewsJsonUtil;
 
@@ -14,6 +15,13 @@ import java.util.List;
  * Created by abo on 16/8/9.
  */
 public class NewModelImpl implements NewModel {
+
+    /**
+     *加载新闻列表
+     * @param url
+     * @param type
+     * @param onLoadNewListListener
+     */
     @Override
     public void loadNews(String url,final int type,final OnLoadNewListListener onLoadNewListListener ){
         OkHttpUtils.ResultCallback<String> resultCallback = new OkHttpUtils.ResultCallback<String>() {
@@ -31,6 +39,30 @@ public class NewModelImpl implements NewModel {
             }
         };
         OkHttpUtils.get(url, resultCallback);
+    }
+
+    /**
+     *
+     * 加载新闻详情
+     * @param docid
+     * @param listener
+     */
+    @Override
+    public void loadNewsDetail(final String docid, final OnLoadNewDetailListener listener) {
+        String url = getNewsDetailUrl(docid);
+        OkHttpUtils.ResultCallback<String> resultCallback = new OkHttpUtils.ResultCallback<String>() {
+            @Override
+            public void onSuccess(String response) {
+                NewsDetailBean newsDetailBean = NewsJsonUtil.readJsonDetailBeans(response,docid);
+                listener.onSuccess(newsDetailBean);
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                listener.onFailure("Load news detail failure",e);
+            }
+        };
+        OkHttpUtils.get(url,resultCallback);
     }
 
     private String getId(int type) {
@@ -54,9 +86,20 @@ public class NewModelImpl implements NewModel {
         return id;
     }
 
+    private String getNewsDetailUrl(String docid){
+        StringBuffer stringBuffer = new StringBuffer(Url.NEW_DETAIL);
+        stringBuffer.append(docid).append(Url.END_DETAIL_URL);
+        return stringBuffer.toString();
+    }
+
 
     public interface OnLoadNewListListener{
         void onSuccess(List<NewsBean> list);
+        void onFailure(String msg,Exception e);
+    }
+
+    public interface OnLoadNewDetailListener{
+        void onSuccess(NewsDetailBean list);
         void onFailure(String msg,Exception e);
     }
 }
