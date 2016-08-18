@@ -10,4 +10,6 @@
     <string name="nba">NBA</string>
     <string name="cars">汽车</string>
     <string name="jokes">笑话</string>
+    <string name="home_title">News</string>
+    <string name="new_detail">news</string>
 </resources>

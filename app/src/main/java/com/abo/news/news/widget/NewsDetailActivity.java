@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-
 import com.abo.news.Http.ImageLoaderUtils;
 import com.abo.news.R;
 import com.abo.news.beans.NewsBean;
@@ -27,6 +26,7 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsDetail 
     private NewsDetailPresenter mNewsDetailPresenter;
     private ProgressBar mProgressBar;
     private HtmlTextView mHtmlTextView;
+    private Toolbar toolbar;
 
     /**
      * @param savedInstanceState
@@ -35,7 +35,7 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsDetail 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         mProgressBar = (ProgressBar) findViewById(R.id.progress);
         mHtmlTextView = (HtmlTextView) findViewById(R.id.htNewsContent);
         setSupportActionBar(toolbar);
@@ -61,7 +61,27 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsDetail 
         mNewsDetailPresenter = new NewsDetailPresenterImpl(getApplicationContext(),this);
         mNewsDetailPresenter.loadNewsDetail(mNewsBean.getDocid());
 
+
     }
+
+
+
+//    @Override
+//    protected void setUpData() {
+//        setContentView(R.layout.activity_news_detail,R.menu.menu_main,MODE_BACK);
+//        mProgressBar = (ProgressBar) findViewById(R.id.progress);
+//        mHtmlTextView = (HtmlTextView) findViewById(R.id.htNewsContent);
+////        setSupportActionBar(mToolbar);
+//        //获取新闻列表标题
+//        mNewsBean = (NewsBean) getIntent().getSerializableExtra("news");
+//        //设置标题
+//        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collasping_toolbar);
+//        collapsingToolbarLayout.setTitle(mNewsBean.getTitle());
+//        //加载图片
+//        ImageLoaderUtils.display(getApplicationContext(), (ImageView) findViewById(R.id.img_toolar),mNewsBean.getImgsrc());
+//        mNewsDetailPresenter = new NewsDetailPresenterImpl(getApplicationContext(),this);
+//        mNewsDetailPresenter.loadNewsDetail(mNewsBean.getDocid());
+//    }
 
     @Override
     public void showNewsDetails(String newsDetail) {
