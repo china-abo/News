@@ -62,7 +62,10 @@ public class NewsListFragment extends Fragment implements NewsView, SwipeRefresh
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_news_list,null);
-        mSwipeRefreshWidget = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshWidget = (SwipeRefreshLayout) v.findViewById(R.id.news_swipe_refresh_layout);
+        mSwipeRefreshWidget.setColorSchemeResources(R.color.primary,
+                R.color.primary_dark, R.color.primary_light,
+                R.color.accent);
         mSwipeRefreshWidget.setOnRefreshListener(this);
 
         mRecyclerView = (RecyclerView) v.findViewById(R.id.news_recycler_view);
@@ -71,10 +74,33 @@ public class NewsListFragment extends Fragment implements NewsView, SwipeRefresh
         mAdapter = new NewsAdapter(getActivity().getApplicationContext());
         mAdapter.setOnItemClickListener(onItemClickListener);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnScrollListener(mOnScrollListener);
 
         onRefresh();
         return v;
     }
+
+    private RecyclerView.OnScrollListener mOnScrollListener = new RecyclerView.OnScrollListener() {
+
+        private int lastVisibleItem;
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
+        }
+
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            if (newState == RecyclerView.SCROLL_STATE_IDLE
+                    && lastVisibleItem + 1 == mAdapter.getItemCount()
+                    && mAdapter.isShowFooter()) {
+                //加载更多
+                mNewsPresenter.loadNews(mType, pageIndex + Url.PAZE_SIZE);
+            }
+        }
+    };
 
     /**
      * 实现新闻

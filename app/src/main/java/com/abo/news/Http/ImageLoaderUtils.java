@@ -1,18 +1,14 @@
 package com.abo.news.Http;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.abo.news.R;
+import com.bumptech.glide.Glide;
 
 /**
  * Description : 图片加载工具类
- * Author : lauren
- * Email  : lauren.liuling@gmail.com
- * Blog   : http://www.liuling123.com
- * Date   : 15/12/21
+
  */
 public class ImageLoaderUtils {
 

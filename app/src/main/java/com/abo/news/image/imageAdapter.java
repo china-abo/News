@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.abo.news.Http.ImageLoaderUtils;
+import com.abo.news.Http.ToolsUtil;
 import com.abo.news.R;
 import com.abo.news.beans.ImageBean;
 
@@ -27,6 +29,9 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.viewHolder> 
 
     public imageAdapter(Context context){
         this.mContext = context;
+        mMaxWidth = ToolsUtil.getWidthInPx(mContext) - 20;
+        mMaxHeight = ToolsUtil.getHeightInPx(mContext) - ToolsUtil.getStatusHeight(mContext) -
+                ToolsUtil.dip2px(mContext, 96);
     }
 
     public void setData(List<ImageBean> data){
@@ -54,6 +59,7 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.viewHolder> 
             height = mMaxHeight;
         }
         holder.mTextView.setText(imageBean.getTitle());
+        holder.mImageView.setLayoutParams(new LinearLayout.LayoutParams(mMaxWidth, height));
         ImageLoaderUtils.display(mContext,holder.mImageView,imageBean.getThumburl());
     }
 

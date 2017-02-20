@@ -55,7 +55,9 @@ public class MainActivity extends BaseActivity {
                     default:
                         switch2News();
                 }
-                return false;
+                item.setChecked(true);
+                mDrawerLayout.closeDrawers();
+                return true;
             }
         });
     }
